@@ -18,6 +18,9 @@
   "homepage": "https://github.com/plugga-tech/express-api-webshop-js-KUNG3N#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "mongodb": "^5.1.0",
+    "mongoose": "^7.0.5",
+    "node": "^19.8.1",
     "nodemon": "^2.0.22"
   }
 }
