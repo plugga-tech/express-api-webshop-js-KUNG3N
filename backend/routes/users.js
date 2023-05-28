@@ -4,7 +4,6 @@ const router = express.Router();
 const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
-    id: String,
     name: String,
     email: String,
     password: String
@@ -30,26 +29,32 @@ router.get("/", function(rew, res, next){
 });
 
 /**
- * @api {post} /users get user by id
+/**
+ * @api {get} /users/:id Get user by id
 */
-router.post("/", function (req, res, next) {
+router.get("/:id", function (req, res, next) {
     try {
-        const id = req.body.id;
+        const id = req.params.id;
 
         if (!id) {
             res.status(400).send("id is required");
             return;
         }
 
-        User.findOne({ id: id }).catch(err => {
+        User.findOne({ _id: id }).catch(err => {
             next(err);
         }).then(user => {
-            res.send(user);
+            if (!user) {
+                res.status(404).send('User not found');
+            } else {
+                res.send(user);
+            }
         });
     } catch (err) {
         next(err);
     }
 });
+
 
 /**
  * @api {post} /users/add Create a new user
@@ -64,7 +69,6 @@ router.post("/add", function (req, res, next) {
         }
 
         const user = new User({
-            id: crypto.randomUUID(),
             name: name,
             email: email,
             password: password

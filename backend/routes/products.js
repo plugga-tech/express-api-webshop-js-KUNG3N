@@ -51,4 +51,4 @@ router.post('/add', function(req, res){
 
 })
 
-module.exports = router;
+module.exports = { router, Product };

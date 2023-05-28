@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 const ordersRoutes = require('./routes/orders')
-const productsRoutes = require('./routes/products');
+const { router: productsRouter } = require('./routes/products');
 const userRoutes = require('./routes/users');
 
 // Middleware for parsing JSON request bodies
@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes which should handle requests
 app.use('/api/orders', ordersRoutes);
-app.use('/api/products', productsRoutes);
+app.use('/api/products', productsRouter);
 app.use('/api/users', userRoutes);
 
 // Connect to MongoDB

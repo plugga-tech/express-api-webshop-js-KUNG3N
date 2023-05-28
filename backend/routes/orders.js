@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const { Product } = require("./products");
 const router = express.Router();
 
 router.get("/all", function (req, res, next) {
@@ -31,7 +32,7 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
-router.post("/add", function (req, res, next) {
+router.post("/add", async function (req, res, next) {
   try {
     const { user, products } = req.body;
 
@@ -45,14 +46,23 @@ router.post("/add", function (req, res, next) {
       products: products
     });
 
-    order.save().catch(err => {
-      next(err);
-    }).then(order => {
-      res.send(order);
-    });
+    await order.save();
+
+    for (let orderedProduct of products) {
+      let product = await Product.findById(orderedProduct.productId);
+      if (product) {
+        product.lager -= orderedProduct.quantity;
+        await product.save();
+      } else {
+        throw new Error(`Product with ID ${orderedProduct.productId} not found.`);
+      }
+    }
+
+    res.send(order);
   } catch (err) {
     next(err);
   }
 });
+
 
 module.exports = router;
