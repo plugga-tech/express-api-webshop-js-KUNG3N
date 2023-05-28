@@ -1,2 +1,10 @@
-Placera din backend-kod i denna mapp.
-Dokumentera tydligt om det är några speciella instruktioner för att starta projektet.
+påbörja med att öppna cmd på din dator eller om du använder mac öppna det som mortsvarar det
+första command: mongod
+öppna en till cmd fönster och 
+andra command: mongosh
+
+
+sedan i projectet öppna terminalen i vscode
+kör: cd backend
+
+sedan: nodemon app.js
